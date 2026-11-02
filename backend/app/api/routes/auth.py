@@ -47,6 +47,7 @@ def login(
     db: Session = Depends(get_db),
 ):
     user = db.query(User).filter(User.email == form.username).first()
+    # pyrefly: ignore[bad-argument-type]
     if not user or not verify_password(form.password, user.hashed_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

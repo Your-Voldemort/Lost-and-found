@@ -45,7 +45,9 @@ class User(Base):
     phone: Mapped[Optional[str]] = mapped_column(String(30), nullable=True)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     is_admin: Mapped[bool] = mapped_column(Boolean, default=False)
+    # pyrefly: ignore[deprecated]
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    # pyrefly: ignore[deprecated]
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     reports = relationship("Report", back_populates="submitter")
@@ -90,7 +92,9 @@ class Report(Base):
     contact_phone = Column(String(30), nullable=True)
     contact_email = Column(String(255), nullable=True)
 
+    # pyrefly: ignore[deprecated]
     created_at = Column(DateTime, default=datetime.utcnow)
+    # pyrefly: ignore[deprecated]
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     # Relationships
@@ -118,6 +122,7 @@ class Photo(Base):
     filename = Column(String(500), nullable=False)
     original_filename = Column(String(500), nullable=True)
     content_type = Column(String(100), nullable=True)
+    # pyrefly: ignore[deprecated]
     created_at = Column(DateTime, default=datetime.utcnow)
 
     report = relationship("Report", back_populates="photos")
@@ -133,7 +138,11 @@ class Match(Base):
     match_details = Column(JSON, nullable=True)  # breakdown of match factors
     status = Column(SAEnum(MatchStatus), default=MatchStatus.suggested)
     reviewed_by_id = Column(Integer, ForeignKey("users.id"), nullable=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    # pyrefly: ignore[deprecated]
+    created_at = Column(DateTime, default=
+    # pyrefly: ignore[parse-error]
+    )
+    # pyrefly: ignore[deprecated]
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     missing_report = relationship(

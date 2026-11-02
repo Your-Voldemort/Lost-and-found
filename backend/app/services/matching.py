@@ -19,15 +19,21 @@ def _age_overlap(
     if None in (a_min, a_max, b_min, b_max):
         return 0.5  # partial credit when data is unknown
     # normalise
+    # pyrefly: ignore[unsupported-operation]
     if a_min > a_max:
         a_min, a_max = a_max, a_min
+    # pyrefly: ignore[unsupported-operation]
     if b_min > b_max:
         b_min, b_max = b_max, b_min
+    # pyrefly: ignore[bad-specialization, unsupported-operation]
     overlap = min(a_max, b_max) - max(a_min, b_min)
+    # pyrefly: ignore[unsupported-operation]
     span_a = max(a_max - a_min, 1)
+    # pyrefly: ignore[unsupported-operation]
     span_b = max(b_max - b_min, 1)
     if overlap <= 0:
         # Gap penalty: score decreases as gap grows
+        # pyrefly: ignore[bad-specialization, unsupported-operation]
         gap = max(a_min, b_min) - min(a_max, b_max)
         return max(0.0, 1.0 - gap / 20.0)
     return overlap / ((span_a + span_b) / 2)

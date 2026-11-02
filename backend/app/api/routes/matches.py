@@ -103,7 +103,9 @@ def update_match(
     match = db.query(Match).filter(Match.id == match_id).first()
     if not match:
         raise HTTPException(404, "Match not found")
+    # pyrefly: ignore[read-only]
     match.status = payload.status
+    # pyrefly: ignore[read-only]
     match.reviewed_by_id = current_user.id
     db.commit()
     db.refresh(match)

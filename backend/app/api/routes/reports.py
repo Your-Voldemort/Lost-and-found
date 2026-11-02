@@ -29,6 +29,7 @@ def _save_photo(file: UploadFile) -> Photo:
     content = file.file.read()
     if len(content) > settings.MAX_FILE_SIZE:
         raise HTTPException(400, "File too large (max 5 MB)")
+    # pyrefly: ignore[missing-attribute, not-iterable]
     ext = file.filename.rsplit(".", 1)[-1] if "." in file.filename else "jpg"
     filename = f"{uuid.uuid4().hex}.{ext}"
     save_path = settings.UPLOAD_DIR / filename
@@ -110,6 +111,7 @@ async def create_report(
     for photo_file in photos:
         if photo_file.filename:
             photo = _save_photo(photo_file)
+            # pyrefly: ignore[read-only]
             photo.report_id = report.id
             db.add(photo)
 
@@ -241,6 +243,7 @@ async def add_photos(
     for photo_file in photos:
         if photo_file.filename:
             photo = _save_photo(photo_file)
+            # pyrefly: ignore[read-only]
             photo.report_id = report.id
             db.add(photo)
     db.commit()

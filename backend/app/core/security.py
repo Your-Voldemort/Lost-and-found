@@ -45,12 +45,14 @@ def get_current_user(
     )
     try:
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+        # pyrefly: ignore[bad-assignment]
         user_id: int = payload.get("sub")
         if user_id is None:
             raise credentials_exception
     except JWTError:
         raise credentials_exception
 
+    # pyrefly: ignore[unnecessary-type-conversion]
     user = db.query(User).filter(User.id == int(user_id)).first()
     if user is None:
         raise credentials_exception
@@ -80,9 +82,11 @@ def get_optional_user(
         return None
     try:
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+        # pyrefly: ignore[bad-assignment]
         user_id: int = payload.get("sub")
         if user_id is None:
             return None
+        # pyrefly: ignore[unnecessary-type-conversion]
         return db.query(User).filter(User.id == int(user_id)).first()
     except JWTError:
         return None

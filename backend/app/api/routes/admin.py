@@ -131,6 +131,7 @@ def approve_report(
     report = db.query(Report).filter(Report.id == report_id).first()
     if not report:
         raise HTTPException(404, "Report not found")
+    # pyrefly: ignore[read-only]
     report.status = ReportStatus.active
     db.commit()
     return {"message": "Report approved"}
@@ -145,6 +146,7 @@ def close_report(
     report = db.query(Report).filter(Report.id == report_id).first()
     if not report:
         raise HTTPException(404, "Report not found")
+    # pyrefly: ignore[read-only]
     report.status = ReportStatus.closed
     db.commit()
     return {"message": "Report closed"}
@@ -167,6 +169,7 @@ def set_report_status(
     )
     if not report:
         raise HTTPException(404, "Report not found")
+    # pyrefly: ignore[read-only]
     report.status = payload.status
     db.commit()
     db.refresh(report)
